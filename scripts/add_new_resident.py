@@ -17,6 +17,9 @@ class AddNewResident(QWidget):
     def initUI(self):
         # Create layouts 
         self.layout = QVBoxLayout()
+        self.rowOneLayout = QHBoxLayout()
+        self.rowTwoLayout = QHBoxLayout()
+        self.buttonLayout = QHBoxLayout()
 
 
         # Apply layout to main Widgit

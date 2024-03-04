@@ -6,12 +6,12 @@ from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLi
 import os, sys
 
 class ResidentLookup(QWidget):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.initUI()
         self.show()
 
-    def initUI(self):
+    def initUI(self) -> None:
         # Create the layouts
         self.layout = QVBoxLayout()
         self.navigationLayout = QHBoxLayout()
@@ -19,11 +19,11 @@ class ResidentLookup(QWidget):
         self.previewLayout = QVBoxLayout()
 
         # Create Widgets
-        self.previousPageBtn = QPushButton('<--')
-        self.refreshBtn = QPushButton('refresh')
-        self.residentListbox = QListWidget()
-        self.previewBioLabel = QLabel("Coming soon")
-        self.previewResImage = QLabel('Image')
+        self.previousPageBtn: QWidget = QPushButton('<--')
+        self.refreshBtn: QWidget = QPushButton('refresh')
+        self.residentListbox: QWidget = QListWidget()
+        self.previewBioLabel: QWidget = QLabel("Coming soon")
+        self.previewResImage: QWidget = QLabel('Image')
 
         # Add WIdgets to layouts
         self.navigationLayout.addWidget(self.previousPageBtn)
