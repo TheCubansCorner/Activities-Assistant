@@ -1,0 +1,18 @@
+from PyQt6.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QVBoxLayout
+from scripts.login import Login
+
+import sys, os
+
+
+class MainWindow(QMainWindow):
+    def __init__(self) -> QMainWindow:      # -- Initiates the main window of the application
+        super().__init__()
+        self.apps = {'login' : Login()}
+        
+        self.show()
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    mainWindow = MainWindow()
+    sys.exit(app.exec())
