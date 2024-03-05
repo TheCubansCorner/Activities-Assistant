@@ -1,3 +1,8 @@
 
 *.pyc
 scripts/database_queries.py
+databases/admins.db
+*.db
+*.db
+*.db
+*.db

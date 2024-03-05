@@ -4,25 +4,20 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QComboBox, QPushButton
 from PyQt6.QtWidgets import QLabel, QDateEdit, QVBoxLayout, QHBoxLayout, QTextEdit
 from datetime import datetime
+from database_queries import DatabaseQueries
 
 import sys, os
 
 
-class AddNewResident(QWidget):
-    def __init__(self) -> None:
+class NewResidentWindow(QWidget):
+    def __init__(self, main = None) -> None:
         super().__init__()
+        self.mainFrame: object = main
         self.initUI()
         self.applyLayouts()
         self.buttonConnections()
-        self.show()
 
     def initUI(self) -> None:
-        # Create layouts 
-        self.layout = QVBoxLayout()
-        self.rowOneLayout = QHBoxLayout()
-        self.rowTwoLayout = QHBoxLayout()
-        self.buttonLayout = QHBoxLayout()
-
         # Create Widgets
         self.firstNameLabel: QWidget = QLabel("First Name:")                            # -- QLabels
         self.middleNameLabel: QWidget = QLabel("Middle:")
@@ -45,7 +40,6 @@ class AddNewResident(QWidget):
 
         self.dobEntry: QWidget = QDateEdit()                                            # -- QDateEdits
         self.moveInDateEntry: QWidget = QDateEdit()
-        
 
         self.uploadBtn: QWidget = QPushButton("upload")                                 # -- QPushButtons
         self.submitBtn: QWidget = QPushButton("Submit")
@@ -60,6 +54,12 @@ class AddNewResident(QWidget):
         self.residentBioEntry: QWidget = QTextEdit()
 
     def applyLayouts(self) -> None:
+        # Create layouts 
+        self.layout = QVBoxLayout()
+        self.rowOneLayout = QHBoxLayout()
+        self.rowTwoLayout = QHBoxLayout()
+        self.buttonLayout = QHBoxLayout()
+
         # Apply Widgets to Layouts
         self.rowOneLayout.addWidget(self.firstNameLabel)
         self.rowOneLayout.addWidget(self.firstNameEntry)
@@ -98,30 +98,48 @@ class AddNewResident(QWidget):
 
     def buttonConnections(self) -> None:
         self.submitBtn.clicked.connect(self.submitResident)
-        self.cancelBtn.clicked.connect(sys.exit)
+        self.cancelBtn.clicked.connect(self.cancelSubmission)
 
     def calculateAge(self) -> str:
         # Calculate resident DOB
         dateOfBirth: list = self.dobEntry.text().split('/')
         age: str = datetime.today().year - int(dateOfBirth[2])
+        
         if int(dateOfBirth[0]) > datetime.today().month:
             return str(age - 1)
         else:
             return str(age)
 
     def submitResident(self) -> None:
-        residentToAdd = (
+        residentToAdd: tuple = (
             self.firstNameEntry.text(), self.middleNameEntry.text(),
             self.lastNameEntry.text(), self.calculateAge(),
             self.dobEntry.text(), self.roomNumEntry.text(),
             self.resImageLabel.text(), self.fallRiskCombo.currentText(),
             self.oxygenCombo.currentText(), self.feederCombo.currentText(),
             self.veteranCombo.currentText(), self.dietRestrictEntry.toPlainText(),
-            self.residentBioEntry.toPlainText()
+            self.moveInDateEntry.text(), self.residentBioEntry.toPlainText()
         )
-        
+
+        # Check for missing informaiton
+        for item in residentToAdd:
+            if item == '':
+                return print('Missing information')
+            
+        # submit the resident to the database
+        DatabaseQueries("resident").addNewResident(residentToAdd) 
+
+    def cancelSubmission(self) -> None:
+        if self.mainFrame != None:
+            self.mainFrame.listPreviewLayout.removeWidget(self)
+            self.destroy()
+        else:
+            sys.exit()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    addResidentScreen: QWidget = AddNewResident()
+    addResidentScreen: QWidget = NewResidentWindow()
+    addResidentScreen.show()
     sys.exit(app.exec())
+    

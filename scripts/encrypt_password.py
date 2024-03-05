@@ -7,13 +7,13 @@ import os
 
 class EncryptPassword:
     def __init__(self) -> None:
-        self.config = ConfigParser()
+        self.config: object = ConfigParser()
         self.config.read(os.path.join("config", "config_activities.ini"))
 
-    def subPassword(self, password : str) -> str:
-        keyOne = self.config["KEYS"]["iterate"]
-        keyTwo = self.config["KEYS"]["key"]
-        encryptPassword = []
+    def subPassword(self, password: str) -> str:
+        keyOne: str = self.config["KEYS"]["iterate"]
+        keyTwo: str = self.config["KEYS"]["key"]
+        encryptPassword: str = ""
 
         # Code Substitution
         for letter in password:
@@ -21,51 +21,54 @@ class EncryptPassword:
                 
                 if letter.upper() == ltr:
                     if letter == ltr.lower():
-                        encryptPassword.append(keyTwo[inx].lower())
+                        encryptPassword += keyTwo[inx].lower()
                     else:
-                        encryptPassword.append(keyTwo[inx])
+                        encryptPassword += keyTwo[inx]
 
-        encryptPassword = self.rothPassword(''.join(encryptPassword))
+        encryptPassword: str = self.rothPassword(encryptPassword)
         return encryptPassword
 
-    def rothPassword(self, password : str) -> str:
-        key = self.config["KEYS"]["iterate"]
-        length = len(key)
-        decPassword = []
+    def rothPassword(self, password: str) -> str:
+        key: str = self.config["KEYS"]["iterate"]
+        length: int = len(key)
+        decPassword: str = ""
+
         # Code Roth13
         for letter in password:
-            letterIndex = key.index(letter.upper())
-            newIndex = letterIndex + 13
+            letterIndex: int = key.index(letter.upper())
+            newIndex: int = letterIndex + 13
             while newIndex > length - 1:
                 newIndex -= length
 
-            decPassword.append(key[newIndex])
+            decPassword += key[newIndex]
         
-        decPassword = "".join(decPassword)
+        decPassword: str = decPassword
 
         return decPassword
 
-    def decodeSubPassword(self, password : str) -> str:
-        keyOne = self.config["KEYS"]["iterate"]
-        keyTwo = self.config["KEYS"]["key"]
-        decPassword = []
+    def decodeSubPassword(self, password: str) -> str:
+        keyOne: str = self.config["KEYS"]["iterate"]
+        keyTwo: str = self.config["KEYS"]["key"]
+        decPassword: str = ""
+        
         # Decode Substitution
         for letter in password:
             for inx, ltr in enumerate(keyTwo):
                 if letter.upper() == ltr:
                     if letter == ltr.lower():
-                        decPassword.append(keyOne[inx].lower())
+                        decPassword += keyOne[inx].lower()
                     else:
-                        decPassword.append(keyOne[inx])
+                        decPassword += keyOne[inx]
         
-        decPassword = "".join(decPassword)
+        decPassword: str = decPassword
 
         return decPassword
 
-    def decodeRothPassword(self, password : str) -> str:
-        key = self.config["KEYS"]["iterate"]
-        length = len(key)
-        decPassword = ''
+    def decodeRothPassword(self, password: str) -> str:
+        key: str = self.config["KEYS"]["iterate"]
+        length: int = len(key)
+        decPassword: str = ""
+
         # Decode Roth13
         for letter in password:
             letterIndex = key.index(letter.upper())
@@ -75,21 +78,16 @@ class EncryptPassword:
 
             decPassword += key[newIndex]
         
-        decPassword = self.decodeSubPassword("".join(decPassword))
+        decPassword: str = self.decodeSubPassword(decPassword)
 
         return decPassword
 
     def encrypt(self, password: str) -> str:
-        crypt = self.subPassword(password)
-        return crypt
+        return self.subPassword(password)
 
-    def decrypt(self, password : str) -> str:
-        crypt = self.decodeRothPassword(password)
-        return crypt
+    def decrypt(self, password: str) -> str:
+        return self.decodeRothPassword(password)
 
 
 if __name__ == "__main__":
-    x = EncryptPassword()
-    y = x.encrypt("Sopu88!!")
-    print(x.encrypt("Sopu88!!"))
-    print(x.decrypt(y))
+    EncryptPassword()
