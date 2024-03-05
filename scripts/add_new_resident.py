@@ -100,6 +100,15 @@ class AddNewResident(QWidget):
         self.submitBtn.clicked.connect(self.submitResident)
         self.cancelBtn.clicked.connect(sys.exit)
 
+    def calculateAge(self) -> str:
+        # Calculate resident DOB
+        dateOfBirth: list = self.dobEntry.text().split('/')
+        age: str = datetime.today().year - int(dateOfBirth[2])
+        if int(dateOfBirth[0]) > datetime.today().month:
+            return str(age - 1)
+        else:
+            return str(age)
+
     def submitResident(self) -> None:
         residentToAdd = (
             self.firstNameEntry.text(), self.middleNameEntry.text(),
@@ -110,18 +119,6 @@ class AddNewResident(QWidget):
             self.veteranCombo.currentText(), self.dietRestrictEntry.toPlainText(),
             self.residentBioEntry.toPlainText()
         )
-
-        print(residentToAdd)
-
-
-    def calculateAge(self) -> str:
-        # Calculate resident DOB
-        dateOfBirth: list = self.dobEntry.text().split('/')
-        age: str = datetime.today().year - int(dateOfBirth[2])
-        if int(dateOfBirth[0]) > datetime.today().month:
-            return str(age - 1)
-        else:
-            return str(age)
         
 
 if __name__ == "__main__":

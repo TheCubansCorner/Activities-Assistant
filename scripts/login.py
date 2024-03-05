@@ -63,7 +63,7 @@ class Login(QWidget):
         pass
     
     def submitUser(self) -> None:                                       # -- Function that checks the input information against the Admin database for login
-        queryData = DatabaseQueries().getMasterAdmin()
+        queryData = DatabaseQueries("Admin").getMasterAdmin()
         user = self.userLine.text()
         userPass = self.passLine.text()
         cryptPass = EncryptPassword().encrypt(userPass)
