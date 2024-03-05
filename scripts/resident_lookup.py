@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLi
 
 import os, sys
 
+
 class ResidentLookup(QWidget):
     def __init__(self) -> None:
         super().__init__()
@@ -43,3 +44,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     residentLookup = ResidentLookup()
     sys.exit(app.exec())
+    
