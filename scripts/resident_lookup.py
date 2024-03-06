@@ -2,6 +2,7 @@
 #! resident_lookup.py -- Main page for looking up residents in the database
 
 from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout
+
 from add_new_resident import NewResidentWindow
 
 import os, sys
@@ -12,7 +13,7 @@ class ResidentLookup(QWidget):
         super().__init__()
         self.initUI()
         self.applyLayouts()
-        self.buttonConnections()
+        self.setButtonConnections()
         self.show()
 
     def initUI(self) -> None:
@@ -30,7 +31,7 @@ class ResidentLookup(QWidget):
         self.navigationLayout = QHBoxLayout()
         self.listPreviewLayout = QHBoxLayout()
         self.previewLayout = QVBoxLayout()
-        
+
         # Add WIdgets to layouts
         self.navigationLayout.addWidget(self.previousPageBtn)
         self.navigationLayout.addWidget(self.refreshBtn)
@@ -45,8 +46,11 @@ class ResidentLookup(QWidget):
         # Add Set Layout
         self.setLayout(self.layout)
 
-    def buttonConnections(self) -> None:
+    def setButtonConnections(self) -> None:
         self.addResidentBtn.clicked.connect(self.addResident)
+    
+    def applyStylesheets(self):
+        pass
 
     def addResident(self) -> None:
         newResidentWindow = NewResidentWindow(self)

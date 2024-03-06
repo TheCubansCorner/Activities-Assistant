@@ -1,12 +1,13 @@
 #! pthon3
 #! add_new_resident.py -- Window for adding residents to the database
 
+import sys, os
+from datetime import datetime
+
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QComboBox, QPushButton
 from PyQt6.QtWidgets import QLabel, QDateEdit, QVBoxLayout, QHBoxLayout, QTextEdit
-from datetime import datetime
-from database_queries import DatabaseQueries
 
-import sys, os
+from database_queries import DatabaseQueries
 
 
 class NewResidentWindow(QWidget):
@@ -15,7 +16,8 @@ class NewResidentWindow(QWidget):
         self.mainFrame: object = main
         self.initUI()
         self.applyLayouts()
-        self.buttonConnections()
+        self.setButtonConnections()
+        self.loadComboOptions()
 
     def initUI(self) -> None:
         # Create Widgets
@@ -95,16 +97,26 @@ class NewResidentWindow(QWidget):
 
         # Apply layout to main Widgit
         self.setLayout(self.layout)
+   
+    def applyStylesheets(self) -> None:
+        pass
 
-    def buttonConnections(self) -> None:
+    def setButtonConnections(self) -> None:
         self.submitBtn.clicked.connect(self.submitResident)
         self.cancelBtn.clicked.connect(self.cancelSubmission)
+
+    def loadComboOptions(self) -> None:
+        options: list = ["--", "Yes", "No"]
+        self.fallRiskCombo.insertItems(0, options)
+        self.oxygenCombo.insertItems(0, options)
+        self.feederCombo.insertItems(0, options)
+        self.veteranCombo.insertItems(0, options)
 
     def calculateAge(self) -> str:
         # Calculate resident DOB
         dateOfBirth: list = self.dobEntry.text().split('/')
         age: str = datetime.today().year - int(dateOfBirth[2])
-        
+
         if int(dateOfBirth[0]) > datetime.today().month:
             return str(age - 1)
         else:
@@ -123,7 +135,7 @@ class NewResidentWindow(QWidget):
 
         # Check for missing informaiton
         for item in residentToAdd:
-            if item == '':
+            if item == '' or item == '--' or item == 'None Selected':
                 return print('Missing information')
             
         # submit the resident to the database
@@ -136,6 +148,8 @@ class NewResidentWindow(QWidget):
         else:
             sys.exit()
 
+    def uploadPhoto(self) -> str:
+        pass
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

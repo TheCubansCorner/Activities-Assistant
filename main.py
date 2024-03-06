@@ -1,10 +1,11 @@
 #! python3
 #! main.py -- Main applicaiton window
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QVBoxLayout
-from scripts.login import Login
-
 import sys, os
+
+from PyQt6.QtWidgets import QApplication, QMainWindow, QHBoxLayout, QVBoxLayout
+
+from scripts.login import Login
 
 
 class MainWindow(QMainWindow):
@@ -19,4 +20,3 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
     sys.exit(app.exec())
-    

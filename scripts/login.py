@@ -2,6 +2,7 @@
 #!  login.py -- App for logging into main Activities Application
 
 import sys
+
 from PyQt6.QtWidgets import QLineEdit, QPushButton, QLabel, QWidget, QApplication, QVBoxLayout, QHBoxLayout
 
 if __name__ != "__main__":
@@ -12,32 +13,35 @@ else:
     from database_queries import DatabaseQueries
 
 
-
-
 class Login(QWidget): 
     def __init__(self) -> QWidget:                                      # -- Initiates the login widget
         super().__init__()
         self.initUI()
+        self.applyLayouts()
+        self.setButtonConnections()
+        self.applyStylesheets()
 
     def initUI(self) -> None:                                           # -- Initiates the Widgets
+        # Labels
+        self.welcomeLabel: QWidget = QLabel("WELCOME!")
+        self.errorLabel: QWidget = QLabel()
+        self.userLabel: QWidget = QLabel("Username: ")
+        self.passLabel: QWidget = QLabel("Password: ")
+
+        # LineEdits
+        self.userLine: QWidget = QLineEdit()
+        self.passLine: QWidget = QLineEdit()
+
+        # Buttons
+        self.loginBtn: QWidget = QPushButton('Login')
+        self.cancelBtn: QWidget = QPushButton('Cancel')
+
+    def applyLayouts(self):
+        # Create layouts
         self.layout = QVBoxLayout()
         self.userLayout = QHBoxLayout()
         self.passLayout = QHBoxLayout()
         self.btnLayout = QHBoxLayout()
-
-        # Labels
-        self.welcomeLabel = QLabel("WELCOME!")
-        self.errorLabel = QLabel()
-        self.userLabel = QLabel("Username: ")
-        self.passLabel = QLabel("Password: ")
-
-        # LineEdits
-        self.userLine = QLineEdit()
-        self.passLine = QLineEdit()
-
-        # Buttons
-        self.loginBtn = QPushButton('Login')
-        self.cancelBtn = QPushButton('Cancel')
 
         # Add Widgets to layouts
         self.layout.addWidget(self.welcomeLabel)
@@ -54,24 +58,23 @@ class Login(QWidget):
 
         # Add layouts to main layout
         self.setLayout(self.layout)
-        
+    
+    def setButtonConnections(self):
         # Button Connections
         self.cancelBtn.clicked.connect(lambda: sys.exit())
         self.loginBtn.clicked.connect(self.submitUser)
 
-    def styleWidgets(self) -> None:                                     # -- Applies Styles to Stylesheets for Widgits
+    def applyStylesheets(self) -> None:                                     # -- Applies Styles to Stylesheets for Widgits
         pass
     
-    def submitUser(self) -> None:                                       # -- Function that checks the input information against the Admin database for login
-        queryData = DatabaseQueries("Admin").getMasterAdmin()
-        user = self.userLine.text()
-        userPass = self.passLine.text()
-        cryptPass = EncryptPassword().encrypt(userPass)
+    def submitUser(self) -> None:                                       # -- Checks the input information against the Admin database for login
+        queryData: tuple = DatabaseQueries("Admin").getMasterAdmin()
+        user: str = self.userLine.text()
+        userPass: str = self.passLine.text()
+        cryptPass: str = EncryptPassword().encrypt(userPass)
 
         # Check username
-        if user == queryData[1]:
-            pass
-        else:
+        if user != queryData[1]:
             self.errorLabel.setText("Username is incorrect!")
             return 
         
