@@ -14,7 +14,7 @@ else:
 
 
 class Login(QWidget): 
-    def __init__(self) -> QWidget:                                      # -- Initiates the login widget
+    def __init__(self) -> None:                                         # -- Initiates the login widget
         super().__init__()
         self.initUI()
         self.applyLayouts()
@@ -36,7 +36,7 @@ class Login(QWidget):
         self.loginBtn: QWidget = QPushButton('Login')
         self.cancelBtn: QWidget = QPushButton('Cancel')
 
-    def applyLayouts(self):
+    def applyLayouts(self):                                             # -- Sets Widgets to layouts and applies layouts
         # Create layouts
         self.layout = QVBoxLayout()
         self.userLayout = QHBoxLayout()
@@ -59,12 +59,12 @@ class Login(QWidget):
         # Add layouts to main layout
         self.setLayout(self.layout)
     
-    def setButtonConnections(self):
+    def setButtonConnections(self):                                     # -- Establishes connections between buttons and functions
         # Button Connections
         self.cancelBtn.clicked.connect(lambda: sys.exit())
         self.loginBtn.clicked.connect(self.submitUser)
 
-    def applyStylesheets(self) -> None:                                     # -- Applies Styles to Stylesheets for Widgits
+    def applyStylesheets(self) -> None:                                 # -- Applies Styles to Stylesheets for Widgits
         pass
     
     def submitUser(self) -> None:                                       # -- Checks the input information against the Admin database for login

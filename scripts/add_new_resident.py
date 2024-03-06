@@ -1,10 +1,10 @@
 #! pthon3
 #! add_new_resident.py -- Window for adding residents to the database
 
-import sys, os
+import sys, os, shutil
 from datetime import datetime
 
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QComboBox, QPushButton
+from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QComboBox, QPushButton, QFileDialog
 from PyQt6.QtWidgets import QLabel, QDateEdit, QVBoxLayout, QHBoxLayout, QTextEdit
 
 from database_queries import DatabaseQueries
@@ -104,6 +104,7 @@ class NewResidentWindow(QWidget):
     def setButtonConnections(self) -> None:
         self.submitBtn.clicked.connect(self.submitResident)
         self.cancelBtn.clicked.connect(self.cancelSubmission)
+        self.uploadBtn.clicked.connect(self.uploadPhoto)
 
     def loadComboOptions(self) -> None:
         options: list = ["--", "Yes", "No"]
@@ -135,11 +136,15 @@ class NewResidentWindow(QWidget):
 
         # Check for missing informaiton
         for item in residentToAdd:
+            print(item)
             if item == '' or item == '--' or item == 'None Selected':
                 return print('Missing information')
             
         # submit the resident to the database
-        DatabaseQueries("resident").addNewResident(residentToAdd) 
+        DatabaseQueries("resident").addNewResident(residentToAdd)
+
+        # Copies image from its origional path to the images folder
+        shutil.copy(self.absolute_path, os.path.join('images', self.resImageLabel.text())) 
 
     def cancelSubmission(self) -> None:
         if self.mainFrame != None:
@@ -149,7 +154,10 @@ class NewResidentWindow(QWidget):
             sys.exit()
 
     def uploadPhoto(self) -> str:
-        pass
+        img_to_save = QFileDialog.getOpenFileName(filter = '(*.jpg)')
+        path: str = os.path.split(img_to_save[0])
+        self.resImageLabel.setText(path[1])
+        self.absolute_path: str = os.path.join(path[0], path[1])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
