@@ -6,11 +6,11 @@ from configparser import ConfigParser
 import os
 
 class EncryptPassword:
-    def __init__(self) -> None:
+    def __init__(self) -> None:                                 # -- Initiates the module
         self.config: object = ConfigParser()
         self.config.read(os.path.join("config", "config_activities.ini"))
 
-    def subPassword(self, password: str) -> str:
+    def subPassword(self, password: str) -> str:                # -- Encodes password and sends it to the second encoder
         keyOne: str = self.config["KEYS"]["iterate"]
         keyTwo: str = self.config["KEYS"]["key"]
         encryptPassword: str = ""
@@ -28,7 +28,7 @@ class EncryptPassword:
         encryptPassword: str = self.rothPassword(encryptPassword)
         return encryptPassword
 
-    def rothPassword(self, password: str) -> str:
+    def rothPassword(self, password: str) -> str:               # -- Encodes the already encoded password
         key: str = self.config["KEYS"]["iterate"]
         length: int = len(key)
         decPassword: str = ""
@@ -46,7 +46,7 @@ class EncryptPassword:
 
         return decPassword
 
-    def decodeSubPassword(self, password: str) -> str:
+    def decodeSubPassword(self, password: str) -> str:          # -- Finishes the decoding process
         keyOne: str = self.config["KEYS"]["iterate"]
         keyTwo: str = self.config["KEYS"]["key"]
         decPassword: str = ""
@@ -64,7 +64,7 @@ class EncryptPassword:
 
         return decPassword
 
-    def decodeRothPassword(self, password: str) -> str:
+    def decodeRothPassword(self, password: str) -> str:         # -- Decodes password and sends it to the second decoder
         key: str = self.config["KEYS"]["iterate"]
         length: int = len(key)
         decPassword: str = ""
@@ -82,10 +82,10 @@ class EncryptPassword:
 
         return decPassword
 
-    def encrypt(self, password: str) -> str:
+    def encrypt(self, password: str) -> str:                    # -- Sends password to encoders
         return self.subPassword(password)
 
-    def decrypt(self, password: str) -> str:
+    def decrypt(self, password: str) -> str:                    # -- Sends password to decoders
         return self.decodeRothPassword(password)
 
 

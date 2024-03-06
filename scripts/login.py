@@ -14,14 +14,14 @@ else:
 
 
 class Login(QWidget): 
-    def __init__(self) -> None:                                         # -- Initiates the login widget
+    def __init__(self) -> None:                     # -- Initiates the Application
         super().__init__()
         self.initUI()
         self.applyLayouts()
         self.setButtonConnections()
         self.applyStylesheets()
 
-    def initUI(self) -> None:                                           # -- Initiates the Widgets
+    def initUI(self) -> None:                       # -- Initiates the Widgets
         # Labels
         self.welcomeLabel: QWidget = QLabel("WELCOME!")
         self.errorLabel: QWidget = QLabel()
@@ -36,7 +36,7 @@ class Login(QWidget):
         self.loginBtn: QWidget = QPushButton('Login')
         self.cancelBtn: QWidget = QPushButton('Cancel')
 
-    def applyLayouts(self):                                             # -- Sets Widgets to layouts and applies layouts
+    def applyLayouts(self) -> None:                 # -- Sets Widgets to layouts and applies layouts
         # Create layouts
         self.layout = QVBoxLayout()
         self.userLayout = QHBoxLayout()
@@ -59,15 +59,15 @@ class Login(QWidget):
         # Add layouts to main layout
         self.setLayout(self.layout)
     
-    def setButtonConnections(self):                                     # -- Establishes connections between buttons and functions
+    def setButtonConnections(self) -> None:         # -- Establishes connections between buttons and functions
         # Button Connections
         self.cancelBtn.clicked.connect(lambda: sys.exit())
         self.loginBtn.clicked.connect(self.submitUser)
 
-    def applyStylesheets(self) -> None:                                 # -- Applies Styles to Stylesheets for Widgits
+    def applyStylesheets(self) -> None:             # -- Applies Styles to Stylesheets for Widgits
         pass
     
-    def submitUser(self) -> None:                                       # -- Checks the input information against the Admin database for login
+    def submitUser(self) -> None:                   # -- Checks the input information against the Admin database for login
         queryData: tuple = DatabaseQueries("Admin").getMasterAdmin()
         user: str = self.userLine.text()
         userPass: str = self.passLine.text()

@@ -11,7 +11,7 @@ from database_queries import DatabaseQueries
 
 
 class NewResidentWindow(QWidget):
-    def __init__(self, main = None) -> None:
+    def __init__(self, main = None) -> None:        # -- Initiates the Application
         super().__init__()
         self.mainFrame: object = main
         self.initUI()
@@ -19,7 +19,7 @@ class NewResidentWindow(QWidget):
         self.setButtonConnections()
         self.loadComboOptions()
 
-    def initUI(self) -> None:
+    def initUI(self) -> None:                       # -- Initiates Apps Widgets
         # Create Widgets
         self.firstNameLabel: QWidget = QLabel("First Name:")                            # -- QLabels
         self.middleNameLabel: QWidget = QLabel("Middle:")
@@ -55,7 +55,7 @@ class NewResidentWindow(QWidget):
         self.dietRestrictEntry: QWidget = QTextEdit()                                   # -- QTextEdits
         self.residentBioEntry: QWidget = QTextEdit()
 
-    def applyLayouts(self) -> None:
+    def applyLayouts(self) -> None:                 # -- Applies widgets to layout, and sets the main layout
         # Create layouts 
         self.layout = QVBoxLayout()
         self.rowOneLayout = QHBoxLayout()
@@ -97,23 +97,23 @@ class NewResidentWindow(QWidget):
 
         # Apply layout to main Widgit
         self.setLayout(self.layout)
-   
-    def applyStylesheets(self) -> None:
-        pass
-
-    def setButtonConnections(self) -> None:
+    
+    def setButtonConnections(self) -> None:         # -- Establish connection between widgets and functions
         self.submitBtn.clicked.connect(self.submitResident)
         self.cancelBtn.clicked.connect(self.cancelSubmission)
         self.uploadBtn.clicked.connect(self.uploadPhoto)
+        
+    def applyStylesheets(self) -> None:             # -- Applies Stylesheets to Application
+        pass
 
-    def loadComboOptions(self) -> None:
+    def loadComboOptions(self) -> None:             # -- Inserts options to comboboxs
         options: list = ["--", "Yes", "No"]
         self.fallRiskCombo.insertItems(0, options)
         self.oxygenCombo.insertItems(0, options)
         self.feederCombo.insertItems(0, options)
         self.veteranCombo.insertItems(0, options)
 
-    def calculateAge(self) -> str:
+    def calculateAge(self) -> str:                  # -- Uses current date and residents DOB to determine age
         # Calculate resident DOB
         dateOfBirth: list = self.dobEntry.text().split('/')
         age: str = datetime.today().year - int(dateOfBirth[2])
@@ -123,7 +123,7 @@ class NewResidentWindow(QWidget):
         else:
             return str(age)
 
-    def submitResident(self) -> None:
+    def submitResident(self) -> None:               # -- Checks entry windows and submits resident to database
         residentToAdd: tuple = (
             self.firstNameEntry.text(), self.middleNameEntry.text(),
             self.lastNameEntry.text(), self.calculateAge(),
@@ -136,7 +136,6 @@ class NewResidentWindow(QWidget):
 
         # Check for missing informaiton
         for item in residentToAdd:
-            print(item)
             if item == '' or item == '--' or item == 'None Selected':
                 return print('Missing information')
             
@@ -146,14 +145,24 @@ class NewResidentWindow(QWidget):
         # Copies image from its origional path to the images folder
         shutil.copy(self.absolute_path, os.path.join('images', self.resImageLabel.text())) 
 
-    def cancelSubmission(self) -> None:
+        # CLose the window pane 
         if self.mainFrame != None:
             self.mainFrame.listPreviewLayout.removeWidget(self)
-            self.destroy()
+            self.mainFrame.residentListbox.clear()
+            self.mainFrame.loadResidentComboList()
+            self.mainFrame.loadResidentPreview()
+            self.close()
         else:
             sys.exit()
 
-    def uploadPhoto(self) -> str:
+    def cancelSubmission(self) -> None:             # -- Cancel and close add resident window pane
+        if self.mainFrame != None:
+            self.mainFrame.listPreviewLayout.removeWidget(self)
+            self.close()
+        else:
+            sys.exit()
+
+    def uploadPhoto(self) -> str:                   # -- Uploads photo to resident form
         img_to_save = QFileDialog.getOpenFileName(filter = '(*.jpg)')
         path: str = os.path.split(img_to_save[0])
         self.resImageLabel.setText(path[1])
