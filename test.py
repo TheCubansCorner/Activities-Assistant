@@ -1,9 +1,14 @@
-from configparser import ConfigParser
+import PyQt6.QtWidgets as qtw
 
-import os
+class MainButt(qtw.QWidget):
+    def __init__(self):
+        super().__init__()
+        x = qtw.QDateTimeEdit()
+        self.layout = qtw.QHBoxLayout()
+        self.layout.addWidget(x)
+        self.setLayout(self.layout)
+        self.show()
 
-config = ConfigParser()
-config.read(os.path.join("config", "config_activities.ini"))
-
-
-print(config["KEYS"]["alphabet"])
+app = qtw.QApplication([])
+x = MainButt()
+app.exec()

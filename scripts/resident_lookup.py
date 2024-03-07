@@ -1,20 +1,27 @@
 #! python3
 #! resident_lookup.py -- Main page for looking up residents in the database
 
-from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout
+import os, sys
+
+from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 
-from add_new_resident import NewResidentWindow
-from database_queries import DatabaseQueries
-
-import os, sys
+if __name__ != "__main__":
+    from scripts.add_new_resident import NewResidentWindow
+    from scripts.database_queries import DatabaseQueries
+    from scripts.resident_profile import ResidentProfile
+else:
+    from add_new_resident import NewResidentWindow
+    from database_queries import DatabaseQueries
+    from resident_profile import ResidentProfile
 
 
 class ResidentLookup(QWidget):
-    def __init__(self) -> None:                     # -- Initiates the Application
+    def __init__(self, main: QApplication = None) -> None:                     # -- Initiates the Application
         super().__init__()
         self.newResidentWindow = None
+        self.residentProfile = None
         self.currentRes = {
             "id" : None, "firstName" : None, "middleInitial" : None,
             "lastName" : None, "age" : None, "dob" : None,
@@ -61,6 +68,7 @@ class ResidentLookup(QWidget):
     def setButtonConnections(self) -> None:         # -- Establishes connection between widgets and functions
         self.addResidentBtn.clicked.connect(self.addResident)
         self.residentListbox.clicked.connect(self.loadResidentPreview)
+        self.residentListbox.doubleClicked.connect(self.mainResidentView)
     
     def applyStylesheets(self) -> None:             # -- Applies Stylesheets to Application
         pass
@@ -72,7 +80,7 @@ class ResidentLookup(QWidget):
             self.newResidentWindow = NewResidentWindow(self)
             self.listPreviewLayout.addWidget(self.newResidentWindow)
 
-    def loadResidentComboList(self) -> None:              # -- Adds resident database to the QlistWidgit
+    def loadResidentComboList(self) -> None:        # -- Adds resident database to the QlistWidgit
         residentList: list = DatabaseQueries().getAllResidents()
         for resident in residentList:
             text: str = f"{resident[0]}) {resident[1]} {resident[2]} {resident[3]}   Room: {resident[4]}"
@@ -95,25 +103,22 @@ class ResidentLookup(QWidget):
             for resInfo in self.currentRes.keys():
                 self.currentRes[resInfo] = resident[itemIndex]
                 itemIndex += 1
-
-            name: str = f"{self.currentRes['firstName']} {self.currentRes['middleInitial']} {self.currentRes['lastName']}"
-            age: str = self.currentRes["age"]
-            dob: str = self.currentRes["dob"]
-            room: str = self.currentRes["room"]
-            moveInDate: str = self.currentRes["moveInDate"]
             
             self.previewBioLabel.setText(f"""
-            Name:               {name}  
-            Age:                  {age}     
-            DOB:                 {dob}
-            Room:               {room}
-            Move in Date:   {moveInDate}
+            Name:               {f"{self.currentRes['firstName']} {self.currentRes['middleInitial']} {self.currentRes['lastName']}"}  
+            Age:                  {self.currentRes["age"]}     
+            DOB:                 {self.currentRes["dob"]}
+            Room:               {self.currentRes["room"]}
+            Move in Date:   {self.currentRes["moveInDate"]}
             """)        
 
             bioImg: str = os.path.join("images", self.currentRes['image'])
             pixmap: QWidget = QPixmap(bioImg)
-            resized_image = pixmap.scaled(350, 350, Qt.AspectRatioMode.KeepAspectRatio)
-            self.previewResImage.setPixmap(resized_image)
+            resizedImage: QPixmap = pixmap.scaled(350, 350, Qt.AspectRatioMode.KeepAspectRatio)
+            self.previewResImage.setPixmap(resizedImage)
+
+    def mainResidentView(self) -> None:
+        pass
 
 
 if __name__ == "__main__":

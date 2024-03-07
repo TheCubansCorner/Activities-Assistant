@@ -7,7 +7,10 @@ from datetime import datetime
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QComboBox, QPushButton, QFileDialog
 from PyQt6.QtWidgets import QLabel, QDateEdit, QVBoxLayout, QHBoxLayout, QTextEdit
 
-from database_queries import DatabaseQueries
+if __name__ != "__main__":
+    from scripts.database_queries import DatabaseQueries
+else:
+    from database_queries import DatabaseQueries
 
 
 class NewResidentWindow(QWidget):

@@ -1,9 +1,10 @@
 #! python3
 #! encrypt_password -- Encrypts user password to be saved
 
+import os
+
 from configparser import ConfigParser
 
-import os
 
 class EncryptPassword:
     def __init__(self) -> None:                                 # -- Initiates the module
