@@ -1,14 +1,7 @@
-import PyQt6.QtWidgets as qtw
+from configparser import ConfigParser
+import os
 
-class MainButt(qtw.QWidget):
-    def __init__(self):
-        super().__init__()
-        x = qtw.QDateTimeEdit()
-        self.layout = qtw.QHBoxLayout()
-        self.layout.addWidget(x)
-        self.setLayout(self.layout)
-        self.show()
+for _, _, file in os.walk("icons"):
+    images: list = file
 
-app = qtw.QApplication([])
-x = MainButt()
-app.exec()
+print(images)

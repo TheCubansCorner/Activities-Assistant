@@ -3,25 +3,21 @@
 
 import os, sys
 
-from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout
+from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 
-if __name__ != "__main__":
-    from scripts.add_new_resident import NewResidentWindow
-    from scripts.database_queries import DatabaseQueries
-    from scripts.resident_profile import ResidentProfile
-else:
-    from add_new_resident import NewResidentWindow
-    from database_queries import DatabaseQueries
-    from resident_profile import ResidentProfile
+from add_new_resident import NewResidentWindow
+from database_queries import DatabaseQueries
+from resident_profile import ResidentProfile
 
 
 class ResidentLookup(QWidget):
-    def __init__(self, main: QApplication = None) -> None:                     # -- Initiates the Application
+    def __init__(self, main: QMainWindow = None) -> None:                     # -- Initiates the Application
         super().__init__()
         self.newResidentWindow = None
         self.residentProfile = None
+        self.mainApp: QApplication = main
         self.currentRes = {
             "id" : None, "firstName" : None, "middleInitial" : None,
             "lastName" : None, "age" : None, "dob" : None,
@@ -69,6 +65,7 @@ class ResidentLookup(QWidget):
         self.addResidentBtn.clicked.connect(self.addResident)
         self.residentListbox.clicked.connect(self.loadResidentPreview)
         self.residentListbox.doubleClicked.connect(self.mainResidentView)
+        self.previousPageBtn.clicked.connect(self.backToMain)
     
     def applyStylesheets(self) -> None:             # -- Applies Stylesheets to Application
         pass
@@ -120,6 +117,14 @@ class ResidentLookup(QWidget):
     def mainResidentView(self) -> None:
         pass
 
+    def backToMain(self) -> None:
+        if self.mainApp:
+            for inx, item in enumerate(self.mainApp.buttonList):
+                item.show()
+                self.mainApp.labelList[inx].show()
+                self.mainApp.layout.removeWidget(self)
+                self.hide()
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

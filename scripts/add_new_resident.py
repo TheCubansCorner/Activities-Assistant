@@ -7,10 +7,7 @@ from datetime import datetime
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QComboBox, QPushButton, QFileDialog
 from PyQt6.QtWidgets import QLabel, QDateEdit, QVBoxLayout, QHBoxLayout, QTextEdit
 
-if __name__ != "__main__":
-    from scripts.database_queries import DatabaseQueries
-else:
-    from database_queries import DatabaseQueries
+from database_queries import DatabaseQueries
 
 
 class NewResidentWindow(QWidget):
@@ -161,7 +158,8 @@ class NewResidentWindow(QWidget):
     def cancelSubmission(self) -> None:             # -- Cancel and close add resident window pane
         if self.mainFrame != None:
             self.mainFrame.listPreviewLayout.removeWidget(self)
-            self.close()
+            self.mainFrame.newResidentWindow = None
+            self.hide()
         else:
             sys.exit()
 

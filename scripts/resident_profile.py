@@ -8,10 +8,7 @@ from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 
-if __name__ != "__main__":
-    from scripts.database_queries import DatabaseQueries
-else:
-    from database_queries import DatabaseQueries
+from database_queries import DatabaseQueries
 
 
 class ResidentProfile(QWidget):
