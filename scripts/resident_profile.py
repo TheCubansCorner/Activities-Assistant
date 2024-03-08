@@ -9,6 +9,8 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 
 from database_queries import DatabaseQueries
+from edit_resident import EditResident
+from delete_resident import DeleteResident
 
 
 class ResidentProfile(QWidget):
@@ -92,10 +94,15 @@ class ResidentProfile(QWidget):
         self.imageLabel.setPixmap(resizeImage)
 
     def editResidentInfo(self) -> None:                     # -- Opens WIndow Pane to Edit resident informaiton
-        pass
+        edit = EditResident(self.resident[0], self)
+        for widg in self.widgetList:
+            widg.hide()
+
+        self.layout.addWidget(edit)
 
     def deleteResidentInfo(self) -> None:                   # -- Deletes resident information
-        pass
+        self.deleteResident: QWidget = DeleteResident(self.resident[0])
+        self.deleteResident.show()
 
     def previousPage(self) -> None:                         # -- Closes application and returns to previous page
         if self.mainApp:
