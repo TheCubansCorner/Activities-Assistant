@@ -3,7 +3,7 @@
 
 import sys, os
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QFrame
+from PyQt6.QtWidgets import QApplication, QMainWindow
 
 from app_list_window import AppListWindow
 
@@ -13,6 +13,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.mainApp = AppListWindow(self)
         self.setCentralWidget(self.mainApp)
+        self.showFullScreen()
 
 
 if __name__ == "__main__":

@@ -12,9 +12,11 @@ from database_queries import DatabaseQueries
 
 
 class ResidentProfile(QWidget):
-    def __init__(self, residentId: int = 1, main: QWidget = None ) -> None:        # -- Initiates the application
+    def __init__(self, residentId: int = 1, mainApp: QWidget = None) -> None:        # -- Initiates the application
         super().__init__()
         self.resident: tuple = DatabaseQueries().getCurrentResident(residentId)
+        self.mainApp = mainApp
+
         self.initUI()
         self.applyLayouts()
         self.setButtonConnections()
@@ -31,6 +33,12 @@ class ResidentProfile(QWidget):
         self.backBtn: QWidget = QPushButton("<--")                                      # -- QPushButton
         self.editBtn: QWidget = QPushButton("Edit")
         self.removeResidentBtn: QWidget = QPushButton("Delete")
+
+        self.widgetList = [
+            self.basicBioLabel, self.imageLabel, self.dietaryLabel,
+            self.mainBioLabel, self.backBtn, self.editBtn,
+            self.removeResidentBtn
+        ]
 
     def applyLayouts(self) -> None:                         # -- Applies Layouts to the application
         # Create Layouts
@@ -90,7 +98,12 @@ class ResidentProfile(QWidget):
         pass
 
     def previousPage(self) -> None:                         # -- Closes application and returns to previous page
-        pass
+        if self.mainApp:
+            for widg in self.mainApp.widgetList:
+                widg.show()   
+
+            self.mainApp.layout.removeWidget(self)
+            self.close()
 
 
 if __name__ == "__main__":

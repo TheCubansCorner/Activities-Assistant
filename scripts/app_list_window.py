@@ -92,11 +92,12 @@ class AppListWindow(QWidget):
             item.setIconSize(QSize(100, 100))
 
     def openApp(self, currentApp) -> None:
-        for inx, item in enumerate(self.buttonList):
-            item.hide()
-            self.labelList[inx].hide()
-            self.layout.addWidget(currentApp)
-            currentApp.show()
+        if currentApp:
+            for inx, item in enumerate(self.buttonList):
+                item.hide()
+                self.labelList[inx].hide()
+                self.layout.addWidget(currentApp)
+                currentApp.show()
 
 
 if __name__ == "__main__":

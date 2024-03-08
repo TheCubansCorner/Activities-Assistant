@@ -40,6 +40,8 @@ class ResidentLookup(QWidget):
         self.residentListbox: QWidget = QListWidget()
         self.previewBioLabel: QWidget = QLabel("Coming soon")
         self.previewResImage: QWidget = QLabel("Image")
+
+        self.widgetList = [self.previousPageBtn, self.addResidentBtn, self.residentListbox, self.previewBioLabel, self.previewResImage]
         
     def applyLayouts(self) -> None:                 # -- Applies widgets to layouts, and applies main layout
         # Create the layouts
@@ -114,16 +116,22 @@ class ResidentLookup(QWidget):
             resizedImage: QPixmap = pixmap.scaled(350, 350, Qt.AspectRatioMode.KeepAspectRatio)
             self.previewResImage.setPixmap(resizedImage)
 
-    def mainResidentView(self) -> None:
-        pass
+    def mainResidentView(self) -> None:             # -- Loads the main resident profile
+        residentId: int = self.currentRes["id"]
+        profile = ResidentProfile(residentId, self)
 
-    def backToMain(self) -> None:
+        for widg in self.widgetList:
+            widg.hide()
+
+        self.layout.addWidget(profile)
+
+    def backToMain(self) -> None:                   # -- Returns to previous application
         if self.mainApp:
             for inx, item in enumerate(self.mainApp.buttonList):
                 item.show()
                 self.mainApp.labelList[inx].show()
-                self.mainApp.layout.removeWidget(self)
-                self.hide()
+            self.mainApp.layout.removeWidget(self)
+            self.close()
         
 
 if __name__ == "__main__":
