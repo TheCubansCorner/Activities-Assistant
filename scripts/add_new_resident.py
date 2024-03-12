@@ -169,6 +169,7 @@ class NewResidentWindow(QWidget):
         self.resImageLabel.setText(path[1])
         self.absolute_path: str = os.path.join(path[0], path[1])
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     addResidentScreen: QWidget = NewResidentWindow()
