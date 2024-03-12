@@ -29,10 +29,10 @@ class EditResident(NewResidentWindow):      # -- Child of add_new_resident.py
 
         self.fillInformation()
     
-    def setConnections(self) -> None:                                           # -- Resets connections of Parent Class
+    def setConnections(self) -> None:                                                   # -- Resets connections of Parent Class
         self.cancelBtn.clicked.connect(self.cancelSubmission)
 
-    def fillInformation(self) -> None:                                          # -- Auto Fills selections with current resident information
+    def fillInformation(self) -> None:                                                  # -- Auto Fills selections with current resident information
         comboChoices: dict = {"--" : 0, "Yes" : 1, "No" : 2}
         
         self.firstNameEntry.setText(self.residentToedit["firstName"])
@@ -49,7 +49,7 @@ class EditResident(NewResidentWindow):      # -- Child of add_new_resident.py
         self.dietRestrictEntry.setText(self.residentToedit["dietary"])
         self.residentBioEntry.setText(self.residentToedit["residentBio"])
 
-    def cancelSubmission(self) -> None:                                         # -- Cancels the current submission
+    def cancelSubmission(self) -> None:                                                 # -- Cancels the current submission
         if self.mainFrame:
             for widg in self.mainFrame.widgetList:
                 widg.show()
@@ -57,14 +57,14 @@ class EditResident(NewResidentWindow):      # -- Child of add_new_resident.py
             self.mainFrame.layout.removeWidget(self)
             self.hide()
 
-    def addDate(self, date: str) -> QDate:                                      # -- Creates a QDate for DateWidgets
+    def addDate(self, date: str) -> QDate:                                              # -- Creates a QDate for DateWidgets
         dateToAdd = date.split('/')
         birthDay = int(dateToAdd[1])
         birthMonth = int(dateToAdd[0])
         birthYear = int(dateToAdd[2])
         return QDate(birthYear, birthMonth, birthDay)
     
-    def submitResident(self) -> None:                                           # -- Submits resident to the database
+    def submitResident(self) -> None:                                                   # -- Submits resident to the database
         resID: int = int(self.residentToedit["id"])
         residentToEdit: list = [
             self.firstNameEntry.text(), self.middleNameEntry.text(),
@@ -75,7 +75,6 @@ class EditResident(NewResidentWindow):      # -- Child of add_new_resident.py
             self.veteranCombo.currentText(), self.dietRestrictEntry.toPlainText(),
             self.moveInDateEntry.text(), self.residentBioEntry.toPlainText()
         ]
-
 
         # Check for missing informaiton
         for item in residentToEdit:
@@ -88,6 +87,8 @@ class EditResident(NewResidentWindow):      # -- Child of add_new_resident.py
         for widg in self.mainFrame.widgetList:
             widg.show()
 
+        self.mainFrame.resident = DatabaseQueries().getCurrentResident(resID)
+        self.mainFrame.loadResidentInformation()
         self.close()
 
 

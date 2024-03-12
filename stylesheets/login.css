@@ -1,0 +1,35 @@
+.welcome {
+    text-align : center;
+    font-size : 28px;
+    margin-top : 40px;
+    margin-bottom: 20px;
+    background-color: rgba(red, green, blue, alpha);
+}
+
+.error {
+    text-align : center;
+    color : rgb(206, 29, 29);
+    background-color: rgba(red, green, blue, alpha);
+}
+
+.userline {
+    width : 105px;
+
+
+}
+
+.userlabel {
+    margin-left: 0;
+    padding-left: 0;
+    background-color: rgba(red, green, blue, alpha);
+}
+
+.passLine {
+    width: 100px;
+
+}
+
+.passlabel {
+    margin-right: 0;
+    background-color: rgba(red, green, blue, alpha);
+}

@@ -94,6 +94,7 @@ class ResidentLookup(QWidget):
             Room:           --
             Move in Date:   --
             """)
+            self.previewResImage.setPixmap(QPixmap())
         else:
             currentId: int = int(self.residentListbox.currentItem().text().split(')')[0])
             resident: tuple = DatabaseQueries(self).getCurrentResident(currentId)
@@ -131,9 +132,8 @@ class ResidentLookup(QWidget):
 
     def backToMain(self) -> None:                               # -- Returns to previous application
         if self.mainApp:
-            for inx, item in enumerate(self.mainApp.buttonList):
+            for item in self.mainApp.widgetList:
                 item.show()
-                self.mainApp.labelList[inx].show()
             self.mainApp.layout.removeWidget(self)
             self.close()
 

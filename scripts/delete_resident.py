@@ -12,8 +12,10 @@ from PyQt6.QtWidgets import QPushButton, QApplication, QWidget, QComboBox, QLabe
 from database_queries import DatabaseQueries
 
 class DeleteResident(QWidget):
-    def __init__(self, id = 1) -> None:         # -- Initiates the Module
+    def __init__(self, id = 1, mainApp: QWidget = None) -> None:         # -- Initiates the Module
         super().__init__()
+        self.mainFrame = mainApp
+        self.residentId = id
         self.initUI()
         self.applyLayout()
         self.setConnections()
@@ -21,9 +23,10 @@ class DeleteResident(QWidget):
         self.loadComboOptions()
 
     def initUI(self) -> None:                   # -- Initiates the Modules Widgets
-        self.messageLabel: QWidget = QLabel("Select a Reason")
+        self.messageLabel: QWidget = QLabel("Select a Reason:")
 
         self.deadAliveCombo: QWidget = QComboBox()
+        
 
         self.cancelBtn: QWidget = QPushButton("Cancel")
         self.submitBtn: QWidget = QPushButton("Yes")
@@ -49,11 +52,18 @@ class DeleteResident(QWidget):
         pass
 
     def loadComboOptions(self) -> None:         # -- Loads informaiton into combobox
-        options: list = ["None Selected", "Deceased", "Moved Out"]
+        options: list = ["----N/A----", "DECEASED", "MOVED"]
         self.deadAliveCombo.insertItems(0, options)
 
     def submitRemoval(self) -> None:            # -- Submit resident for removal
-        pass
+        reason: str = self.deadAliveCombo.currentText()
+
+        if reason != "----N/A----":
+            DatabaseQueries().deleteResident(self.residentId, reason)
+            self.mainFrame.previousPage()
+            self.mainFrame.mainApp.residentProfile = None
+            self.mainFrame.mainApp.loadResidentPreview()  
+            self.close()
 
 
 if __name__ == "__main__":

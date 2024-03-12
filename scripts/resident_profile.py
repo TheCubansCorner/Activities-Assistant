@@ -14,7 +14,7 @@ from delete_resident import DeleteResident
 
 
 class ResidentProfile(QWidget):
-    def __init__(self, residentId: int = 1, mainApp: QWidget = None) -> None:        # -- Initiates the application
+    def __init__(self, residentId: int = 1, mainApp: QWidget = None) -> None:           # -- Initiates the application
         super().__init__()
         self.resident: tuple = DatabaseQueries().getCurrentResident(residentId)
         self.mainApp = mainApp
@@ -25,7 +25,7 @@ class ResidentProfile(QWidget):
         self.applyStyleSheets()
         self.loadResidentInformation()
         
-    def initUI(self) -> None:                               # -- Creates Widgets
+    def initUI(self) -> None:                                                           # -- Creates Widgets
         # Create Widgets
         self.basicBioLabel: QWidget = QLabel("Basic Bio Info")                          # -- QLabels
         self.imageLabel: QWidget = QLabel("Image")
@@ -42,7 +42,7 @@ class ResidentProfile(QWidget):
             self.removeResidentBtn
         ]
 
-    def applyLayouts(self) -> None:                         # -- Applies Layouts to the application
+    def applyLayouts(self) -> None:                                                     # -- Applies Layouts to the application
         # Create Layouts
         self.layout = QVBoxLayout()
         self.navigationLayout = QHBoxLayout()
@@ -64,15 +64,15 @@ class ResidentProfile(QWidget):
         # Apply main layout to APP
         self.setLayout(self.layout)
 
-    def setButtonConnections(self) -> None:                 # -- Establishes button Connections
+    def setButtonConnections(self) -> None:                                             # -- Establishes button Connections
         self.backBtn.clicked.connect(self.previousPage)
         self.editBtn.clicked.connect(self.editResidentInfo)
         self.removeResidentBtn.clicked.connect(self.deleteResidentInfo)
 
-    def applyStyleSheets(self) -> None:                     # -- Applies stylesheets to the application
+    def applyStyleSheets(self) -> None:                                                 # -- Applies stylesheets to the application
         pass
 
-    def loadResidentInformation(self):
+    def loadResidentInformation(self):                                                  # -- Loads the current residents information based on ID
         self.basicBioLabel.setText(
             f"""
             Name: {self.resident[1]} {self.resident[2]} {self.resident[3]}
@@ -93,23 +93,25 @@ class ResidentProfile(QWidget):
         resizeImage: QPixmap = pixmap.scaled(400, 400, Qt.AspectRatioMode.KeepAspectRatio)
         self.imageLabel.setPixmap(resizeImage)
 
-    def editResidentInfo(self) -> None:                     # -- Opens WIndow Pane to Edit resident informaiton
+    def editResidentInfo(self) -> None:                                                 # -- Opens WIndow Pane to Edit resident informaiton
         edit = EditResident(self.resident[0], self)
         for widg in self.widgetList:
             widg.hide()
 
         self.layout.addWidget(edit)
 
-    def deleteResidentInfo(self) -> None:                   # -- Deletes resident information
-        self.deleteResident: QWidget = DeleteResident(self.resident[0])
+    def deleteResidentInfo(self) -> None:                                               # -- Deletes resident information
+        self.deleteResident: QWidget = DeleteResident(self.resident[0], self)
         self.deleteResident.show()
 
-    def previousPage(self) -> None:                         # -- Closes application and returns to previous page
+    def previousPage(self) -> None:                                                     # -- Closes application and returns to previous page
         if self.mainApp:
             for widg in self.mainApp.widgetList:
                 widg.show()   
 
             self.mainApp.layout.removeWidget(self)
+            self.mainApp.residentListbox.clear()
+            self.mainApp.loadResidentComboList()
             self.close()
 
 

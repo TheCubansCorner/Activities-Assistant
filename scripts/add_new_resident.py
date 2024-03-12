@@ -151,6 +151,7 @@ class NewResidentWindow(QWidget):
             self.mainFrame.residentListbox.clear()
             self.mainFrame.loadResidentComboList()
             self.mainFrame.loadResidentPreview()
+            self.mainFrame.newResidentWindow = None
             self.close()
         else:
             sys.exit()
