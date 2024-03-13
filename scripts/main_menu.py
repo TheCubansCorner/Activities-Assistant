@@ -3,18 +3,43 @@
 
 import sys, os
 
-from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtWidgets import QApplication, QMainWindow, QMenuBar
+from PyQt6.QtGui import QAction
 
 from app_list_window import AppListWindow
 
+"""
+TODO: Figure out why CSS isnt changing hover effect
+"""
 
 class MainWindow(QMainWindow):
     def __init__(self, user: tuple = None) -> None:      # -- Initiates the main window of the application
         super().__init__()
         self.mainApp = AppListWindow(self, user)
-        self.setCentralWidget(self.mainApp)
-        self.showFullScreen()
 
+        self.menuOptions()
+        self.setMenuBar(self.menuBar)
+        self.setCentralWidget(self.mainApp)
+        self.setWindowTitle("Activities")
+        self.showFullScreen()
+        self.setFixedSize(self.size())
+        self.show()
+    
+    def closeProgram(self) -> None:
+        sys.exit()
+
+    def applyStylesheets(self):
+        pass
+
+    def menuOptions(self) -> None:
+        menuAction = QAction("&Exit", self)
+        menuAction.setStatusTip("Exit the Application")
+        menuAction.triggered.connect(self.closeProgram)
+        self.menuBar = QMenuBar()
+        menu = self.menuBar
+        fileMenu = menu.addMenu('&File')
+        fileMenu.addAction(menuAction)
+        self.menuBar.addMenu(fileMenu)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

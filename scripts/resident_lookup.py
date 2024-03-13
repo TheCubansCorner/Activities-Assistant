@@ -40,6 +40,7 @@ class ResidentLookup(QWidget):
         self.residentListbox: QWidget = QListWidget()
         self.previewBioLabel: QWidget = QLabel("Coming soon")
         self.previewResImage: QWidget = QLabel("Image")
+        self.previewBlankLabel: QWidget = QLabel("")
 
         self.widgetList = [self.previousPageBtn, self.addResidentBtn, self.residentListbox, self.previewBioLabel, self.previewResImage]
         
@@ -53,8 +54,9 @@ class ResidentLookup(QWidget):
         # Add WIdgets to layouts
         self.navigationLayout.addWidget(self.previousPageBtn)
         self.navigationLayout.addWidget(self.addResidentBtn)
-        self.previewLayout.addWidget(self.previewResImage)
-        self.previewLayout.addWidget(self.previewBioLabel)
+        self.previewLayout.addWidget(self.previewResImage, Qt.AlignmentFlag.AlignCenter)
+        self.previewLayout.addWidget(self.previewBioLabel, Qt.AlignmentFlag.AlignCenter)
+        self.previewLayout.addWidget(self.previewBlankLabel, Qt.AlignmentFlag.AlignCenter)
         self.listPreviewLayout.addWidget(self.residentListbox)
         self.listPreviewLayout.addLayout(self.previewLayout)
         self.layout.addLayout(self.navigationLayout)
@@ -70,7 +72,21 @@ class ResidentLookup(QWidget):
         self.previousPageBtn.clicked.connect(self.backToMain)
     
     def applyStylesheets(self) -> None:                         # -- Applies Stylesheets to Application
-        pass
+        self.previewResImage.setMaximumSize(300,300)
+        self.previewResImage.setMinimumSize(300, 300)
+        self.previewBioLabel.setMaximumSize(300,300)
+        self.previewBioLabel.setMinimumSize(300, 300)
+        self.previewBlankLabel.setMaximumSize(300,300)
+        self.previewBlankLabel.setMinimumSize(300, 300)
+        self.previewBlankLabel.setMaximumSize(300,300)
+        self.previewBlankLabel.setMinimumSize(300, 300)
+
+        self.previewResImage.setProperty("class", "image")
+        self.previewBioLabel.setProperty("class", "bio")
+        self.previewBlankLabel.setProperty("class", "blank")
+
+        with open(os.path.join("stylesheets", "resident_lookup.css")) as file:
+            self.setStyleSheet(file.read())
 
     def addResident(self) -> None:                              # -- Opens and adds add resident module
         if self.newResidentWindow:

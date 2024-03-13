@@ -3,7 +3,7 @@
 
 import sys, os
 
-from PyQt6.QtWidgets import QLabel, QPushButton, QWidget, QApplication, QVBoxLayout, QHBoxLayout, QMainWindow
+from PyQt6.QtWidgets import QLabel, QPushButton, QWidget, QApplication, QVBoxLayout, QHBoxLayout, QMainWindow, QGridLayout
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import QSize, Qt
 
@@ -31,14 +31,14 @@ class AppListWindow(QWidget):
     
     def initUI(self) -> None:                                       # -- Creates WIdgets
         self.header: QWidget = QLabel()
-        self.residentLookupBtn: QWidget = QPushButton("Resident Directory")                                              # -- QPushButtons
-        self.residentHistoryBtn: QWidget = QPushButton("Resident History")
-        self.yahtzeeBtn: QWidget = QPushButton("Yahtzee")
-        self.beanBagTossBtn: QWidget = QPushButton("Cornhole")
-        self.bingoBtn: QWidget = QPushButton("Bingo")
-        self.bocceBallBtn: QWidget = QPushButton("Bocce Ball")
-        self.unoBtn: QWidget = QPushButton("Uno")
-        self.bowlingBtn: QWidget = QPushButton("Bowling")
+        self.residentLookupBtn: QWidget = QPushButton()                                              # -- QPushButtons
+        self.residentHistoryBtn: QWidget = QPushButton()
+        self.yahtzeeBtn: QWidget = QPushButton()
+        self.beanBagTossBtn: QWidget = QPushButton()
+        self.bingoBtn: QWidget = QPushButton()
+        self.bocceBallBtn: QWidget = QPushButton()
+        self.unoBtn: QWidget = QPushButton()
+        self.bowlingBtn: QWidget = QPushButton()
 
         self.widgetList: list = [
             self.residentLookupBtn, self.residentHistoryBtn, self.yahtzeeBtn,
@@ -47,18 +47,18 @@ class AppListWindow(QWidget):
             ]
 
     def applyLayouts(self) -> None:                                 # -- Applies layouts to the applicaiton
-        self.layout = QVBoxLayout()
-        self.headerLayout = QHBoxLayout()
-        self.appButtonLayout = QHBoxLayout()
-        self.combinedLayout = QVBoxLayout()
-        for item in self.widgetList:     
-            self.appButtonLayout.addWidget(item, alignment = Qt.AlignmentFlag.AlignTop)
-
-        self.headerLayout.addWidget(self.header, alignment = Qt.AlignmentFlag.AlignTop)
-        self.combinedLayout.addLayout(self.headerLayout)
-        self.combinedLayout.addLayout(self.appButtonLayout)
+        self.layout = QGridLayout()
         
-        self.layout.addLayout(self.combinedLayout)
+        self.layout.addWidget(self.header, 0, 0, 1, 8, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.residentLookupBtn, 1, 0, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.residentHistoryBtn, 1, 1, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.yahtzeeBtn, 1, 2, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.beanBagTossBtn, 1, 3, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.bingoBtn, 1, 4, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.bocceBallBtn, 1, 5, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.unoBtn, 1, 6, Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.bowlingBtn, 1, 7, Qt.AlignmentFlag.AlignCenter)
+
 
 
         self.setLayout(self.layout)

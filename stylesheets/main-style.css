@@ -1,13 +1,12 @@
 QMainWindow {
-    border: 5px solid #455364;
+    border: 0px solid rgba(red, green, blue, alpha);
     border-radius: 10px;
 }
 
 QWidget {
     /*background-color: rgb(67, 133, 94);
     color : "white";*/
-    background-color: qlineargradient(y1: 0, y2: 1, stop: 0 rgb(55, 90, 70), stop: 1 rgb(67, 133, 94));
-    margin: 10px;    
+    background-color: qlineargradient(y1: 0, y2: 1, stop: 0 rgb(55, 90, 70), stop: 1 rgb(67, 133, 94));    
 }
               
 QLineEdit {
@@ -54,4 +53,18 @@ QDateEdit {
 
 QTextEdit {
     background-color: rgb(202, 202, 202);
+}
+
+QMenuBar {
+    background-color: rgb(88, 33, 107);
+    color: rgb(255, 255, 255);
+}
+
+
+QAction {
+    color: rgb(255, 255, 255);
+}
+
+QAction:hover {
+    background-color: rgb(177, 168, 48);
 }
