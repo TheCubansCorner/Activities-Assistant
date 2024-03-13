@@ -88,7 +88,9 @@ class EditResident(NewResidentWindow):      # -- Child of add_new_resident.py
             widg.show()
 
         self.mainFrame.resident = DatabaseQueries().getCurrentResident(resID)
-        self.mainFrame.loadResidentInformation()
+        self.mainFrame.loadResidentInformation(resID)
+        self.mainFrame.mainApp.residentListbox.clear()
+        self.mainFrame.mainApp.loadResidentComboList()
         self.close()
 
 

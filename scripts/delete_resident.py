@@ -61,9 +61,10 @@ class DeleteResident(QWidget):
 
         if reason != "----N/A----":
             DatabaseQueries().deleteResident(self.residentId, reason)
-            self.mainFrame.previousPage()
-            self.mainFrame.mainApp.residentProfile = None
-            self.mainFrame.mainApp.loadResidentPreview()  
+            resId: int = DatabaseQueries().getAllResidents()[0][0]
+            self.mainFrame.loadResidentInformation(resId) 
+            self.mainFrame.mainApp.residentListbox.clear()
+            self.mainFrame.mainApp.loadResidentComboList() 
             self.close()
 
 
