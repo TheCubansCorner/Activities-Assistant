@@ -3,7 +3,8 @@
 
 import sys, os
 
-from PyQt6.QtWidgets import QLabel, QPushButton, QWidget, QApplication, QVBoxLayout, QHBoxLayout, QMainWindow, QGridLayout
+from PyQt6.QtWidgets import QLabel, QPushButton, QWidget, QApplication
+from PyQt6.QtWidgets import QMainWindow, QGridLayout
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import QSize, Qt
 

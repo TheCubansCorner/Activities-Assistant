@@ -23,7 +23,7 @@ class ResidentProfile(QWidget):
         self.applyLayouts()
         self.setButtonConnections()
         self.applyStyleSheets()
-        self.loadResidentInformation()
+        self.loadResidentInformation(residentId)
         
     def initUI(self) -> None:                                                           # -- Creates Widgets
         # Create Widgets
@@ -32,13 +32,12 @@ class ResidentProfile(QWidget):
         self.dietaryLabel: QWidget = QLabel("Dietary Restrictions Label")
         self.mainBioLabel: QWidget = QLabel("Main Bio info")
 
-        self.backBtn: QWidget = QPushButton("<--")                                      # -- QPushButton
-        self.editBtn: QWidget = QPushButton("Edit")
+        self.editBtn: QWidget = QPushButton("Edit")                                     # -- QPushButton
         self.removeResidentBtn: QWidget = QPushButton("Delete")
-
+        
         self.widgetList = [
             self.basicBioLabel, self.imageLabel, self.dietaryLabel,
-            self.mainBioLabel, self.backBtn, self.editBtn,
+            self.mainBioLabel, self.editBtn,
             self.removeResidentBtn
         ]
 
@@ -49,7 +48,7 @@ class ResidentProfile(QWidget):
         self.basicBioImageLayout = QHBoxLayout()
 
         # Apply Widgets to layouts
-        self.navigationLayout.addWidget(self.backBtn)                                   # -- Navigation Layout
+                                           # -- Navigation Layout
         self.navigationLayout.addWidget(self.editBtn)
         self.navigationLayout.addWidget(self.removeResidentBtn)
 
@@ -65,25 +64,31 @@ class ResidentProfile(QWidget):
         self.setLayout(self.layout)
 
     def setButtonConnections(self) -> None:                                             # -- Establishes button Connections
-        self.backBtn.clicked.connect(self.previousPage)
         self.editBtn.clicked.connect(self.editResidentInfo)
         self.removeResidentBtn.clicked.connect(self.deleteResidentInfo)
 
     def applyStyleSheets(self) -> None:                                                 # -- Applies stylesheets to the application
-        pass
+        self.basicBioLabel.setProperty("class", "minibio")
+        self.imageLabel.setProperty("class", "image")
+        self.dietaryLabel.setProperty("class", "bio")
+        self.mainBioLabel.setProperty("class", "bio")
 
-    def loadResidentInformation(self):                                                  # -- Loads the current residents information based on ID
+        with open(os.path.join("stylesheets", "resident_profile.css")) as file:
+            self.setStyleSheet(file.read())
+
+    def loadResidentInformation(self, residentId: int):                                                  # -- Loads the current residents information based on ID
+        self.resident: tuple = DatabaseQueries().getCurrentResident(residentId)
         self.basicBioLabel.setText(
             f"""
-            Name: {self.resident[1]} {self.resident[2]} {self.resident[3]}
-            Age: {self.resident[4]}
-            DOB: {self.resident[5]}
-            Room: {self.resident[6]}
-            Move In Date: {self.resident[13]}
-            Fall Risk: {self.resident[8]}
-            Oxygen: {self.resident[9]}
-            Feeder: {self.resident[10]}
-            Veteran: {self.resident[11]}
+            Name:\t\t{self.resident[1]} {self.resident[2]} {self.resident[3]}
+            Age:\t\t{self.resident[4]}
+            DOB:\t\t{self.resident[5]}
+            Room:\t\t{self.resident[6]}
+            Move In Date:\t{self.resident[13]}
+            Fall Risk:\t\t{self.resident[8]}
+            Oxygen:\t\t{self.resident[9]}
+            Feeder:\t\t{self.resident[10]}
+            Veteran:\t\t{self.resident[11]}
         """)
         self.dietaryLabel.setText(f"Dietary Restrictions:\n\t{self.resident[12]}")
         self.mainBioLabel.setText(f"Resident Bio:\n\t{self.resident[14]}")

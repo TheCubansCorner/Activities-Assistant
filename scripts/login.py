@@ -8,14 +8,9 @@ from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QPixmap, QIcon, QCursor
 
 
-if __name__ != "__main__":
-    from scripts.encrypt_password import EncryptPassword 
-    from scripts.database_queries import DatabaseQueries
-    from scripts.main_menu import MainWindow
-else:
-    from encrypt_password import EncryptPassword
-    from database_queries import DatabaseQueries
-    from main_menu import MainWindow
+from encrypt_password import EncryptPassword
+from database_queries import DatabaseQueries
+from main_menu import MainWindow
 
 
 class Login(QWidget): 
@@ -101,7 +96,7 @@ class Login(QWidget):
     def submitUser(self) -> None:                   # -- Checks the input information against the Admin database for login
         user: str = self.userLine.text()
         userPass: str = self.passLine.text()
-
+        print(user, userPass)
         # Verify that informaiton provided is not an empty string
         if user == "" and userPass == "":
             self.errorLabel.setText("      You must input a\nUsername and Password")
@@ -109,12 +104,12 @@ class Login(QWidget):
         
         cryptPass: str = EncryptPassword().encrypt(userPass)
         queryData: tuple = DatabaseQueries("admin").adminLogin(user)
-        
+
         # Verify Password
         if queryData:
-            if cryptPass == queryData[2] and user != queryData[1]:
+            if cryptPass == queryData[2] and user == queryData[1]:
+                print(queryData, cryptPass)
                 self.app = MainWindow(queryData)
-                self.app.show()
                 self.close()
         else:
             self.errorLabel.setText("  Either your Username\nor Password is Incorrect")

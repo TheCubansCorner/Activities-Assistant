@@ -1,9 +1,14 @@
 #! python3
 #! resident_lookup.py -- Main page for looking up residents in the database
 
+"""
+TODO: Need to update module to incorporate the entire resident profile
+"""
+
 import os, sys
 
-from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow
+from PyQt6.QtWidgets import QApplication, QWidget, QListWidget, QPushButton
+from PyQt6.QtWidgets import QLabel, QHBoxLayout, QVBoxLayout, QMainWindow
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 
@@ -34,15 +39,14 @@ class ResidentLookup(QWidget):
         self.loadResidentPreview()
 
     def initUI(self) -> None:                                   # -- Initiates the APP UI
+        firstId = DatabaseQueries().getAllResidents()[0][0]
         # Create Widgets
         self.previousPageBtn: QWidget = QPushButton("<--")
         self.addResidentBtn: QWidget = QPushButton("+")
         self.residentListbox: QWidget = QListWidget()
-        self.previewBioLabel: QWidget = QLabel("Coming soon")
-        self.previewResImage: QWidget = QLabel("Image")
-        self.previewBlankLabel: QWidget = QLabel("")
+        self.residentProfile = ResidentProfile(firstId, self)
 
-        self.widgetList = [self.previousPageBtn, self.addResidentBtn, self.residentListbox, self.previewBioLabel, self.previewResImage]
+        self.widgetList = [self.previousPageBtn, self.addResidentBtn, self.residentListbox, self.residentProfile]
         
     def applyLayouts(self) -> None:                             # -- Applies widgets to layouts, and applies main layout
         # Create the layouts
@@ -54,9 +58,7 @@ class ResidentLookup(QWidget):
         # Add WIdgets to layouts
         self.navigationLayout.addWidget(self.previousPageBtn)
         self.navigationLayout.addWidget(self.addResidentBtn)
-        self.previewLayout.addWidget(self.previewResImage, Qt.AlignmentFlag.AlignCenter)
-        self.previewLayout.addWidget(self.previewBioLabel, Qt.AlignmentFlag.AlignCenter)
-        self.previewLayout.addWidget(self.previewBlankLabel, Qt.AlignmentFlag.AlignCenter)
+        self.previewLayout.addWidget(self.residentProfile, Qt.AlignmentFlag.AlignCenter)
         self.listPreviewLayout.addWidget(self.residentListbox)
         self.listPreviewLayout.addLayout(self.previewLayout)
         self.layout.addLayout(self.navigationLayout)
@@ -68,22 +70,11 @@ class ResidentLookup(QWidget):
     def setButtonConnections(self) -> None:                     # -- Establishes connection between widgets and functions
         self.addResidentBtn.clicked.connect(self.addResident)
         self.residentListbox.clicked.connect(self.loadResidentPreview)
-        self.residentListbox.doubleClicked.connect(self.mainResidentView)
         self.previousPageBtn.clicked.connect(self.backToMain)
     
     def applyStylesheets(self) -> None:                         # -- Applies Stylesheets to Application
-        self.previewResImage.setMaximumSize(300,300)
-        self.previewResImage.setMinimumSize(300, 300)
-        self.previewBioLabel.setMaximumSize(300,300)
-        self.previewBioLabel.setMinimumSize(300, 300)
-        self.previewBlankLabel.setMaximumSize(300,300)
-        self.previewBlankLabel.setMinimumSize(300, 300)
-        self.previewBlankLabel.setMaximumSize(300,300)
-        self.previewBlankLabel.setMinimumSize(300, 300)
-
-        self.previewResImage.setProperty("class", "image")
-        self.previewBioLabel.setProperty("class", "bio")
-        self.previewBlankLabel.setProperty("class", "blank")
+        self.residentListbox.setMaximumWidth(300)
+        self.residentListbox.setMinimumWidth(300)
 
         with open(os.path.join("stylesheets", "resident_lookup.css")) as file:
             self.setStyleSheet(file.read())
@@ -92,6 +83,9 @@ class ResidentLookup(QWidget):
         if self.newResidentWindow:
             return
         else:
+            for widge in self.residentProfile.widgetList:
+                widge.hide()
+                
             self.newResidentWindow = NewResidentWindow(self)
             self.listPreviewLayout.addWidget(self.newResidentWindow)
 
@@ -103,14 +97,8 @@ class ResidentLookup(QWidget):
 
     def loadResidentPreview(self) -> None:                      # -- Loads current residents information for preview bio
         if self.residentListbox.currentItem() == None:
-            self.previewBioLabel.setText(f"""
-            Name:           --
-            Age:            --
-            DOB:            --
-            Room:           --
-            Move in Date:   --
-            """)
-            self.previewResImage.setPixmap(QPixmap())
+            # Set Current resident to first in list
+            pass
         else:
             currentId: int = int(self.residentListbox.currentItem().text().split(')')[0])
             resident: tuple = DatabaseQueries(self).getCurrentResident(currentId)
@@ -120,31 +108,7 @@ class ResidentLookup(QWidget):
                 self.currentRes[resInfo] = resident[itemIndex]
                 itemIndex += 1
             
-            self.previewBioLabel.setText(f"""
-            Name:               {f"{self.currentRes['firstName']} {self.currentRes['middleInitial']} {self.currentRes['lastName']}"}  
-            Age:                  {self.currentRes["age"]}     
-            DOB:                 {self.currentRes["dob"]}
-            Room:               {self.currentRes["room"]}
-            Move in Date:   {self.currentRes["moveInDate"]}
-            """)        
-
-            bioImg: str = os.path.join("images", self.currentRes['image'])
-            pixmap: QWidget = QPixmap(bioImg)
-            resizedImage: QPixmap = pixmap.scaled(350, 350, Qt.AspectRatioMode.KeepAspectRatio)
-            self.previewResImage.setPixmap(resizedImage)
-
-    def mainResidentView(self) -> None:                         # -- Loads the main resident profile
-        residentId: int = self.currentRes["id"]
-        profile = ResidentProfile(residentId, self)
-
-        for widg in self.widgetList:
-            widg.hide()
-
-        if self.newResidentWindow:
-            self.newResidentWindow.close()
-            self.newResidentWindow = False
-
-        self.layout.addWidget(profile)
+            self.residentProfile.loadResidentInformation(self.currentRes['id'])
 
     def backToMain(self) -> None:                               # -- Returns to previous application
         if self.mainApp:

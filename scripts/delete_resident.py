@@ -7,7 +7,8 @@ TODO: Complete remove resident function
 
 import sys, os
 
-from PyQt6.QtWidgets import QPushButton, QApplication, QWidget, QComboBox, QLabel, QHBoxLayout, QVBoxLayout
+from PyQt6.QtWidgets import QPushButton, QApplication, QWidget, QComboBox
+from PyQt6.QtWidgets import  QLabel, QHBoxLayout, QVBoxLayout
 
 from database_queries import DatabaseQueries
 

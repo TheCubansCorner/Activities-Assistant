@@ -152,7 +152,7 @@ class NewResidentWindow(QWidget):
             self.mainFrame.loadResidentComboList()
             self.mainFrame.loadResidentPreview()
             self.mainFrame.newResidentWindow = None
-            self.close()
+            self.cancelSubmission()
         else:
             sys.exit()
 
@@ -160,7 +160,11 @@ class NewResidentWindow(QWidget):
         if self.mainFrame != None:
             self.mainFrame.listPreviewLayout.removeWidget(self)
             self.mainFrame.newResidentWindow = None
-            self.hide()
+            self.close()
+            id = DatabaseQueries().getAllResidents()[0][0]
+            self.mainFrame.residentProfile.loadResidentInformation(id)
+            for widg in self.mainFrame.residentProfile.widgetList:
+                widg.show()
         else:
             sys.exit()
 

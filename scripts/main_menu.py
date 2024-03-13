@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
     def closeProgram(self) -> None:
         sys.exit()
 
-    def applyStylesheets(self):
+    def applyStylesheets(self) -> None:
         pass
 
     def menuOptions(self) -> None:
