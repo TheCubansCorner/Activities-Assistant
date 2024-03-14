@@ -1,0 +1,28 @@
+.currentletter {
+    font-size: 270px;
+    background-color: rgb(208, 192, 70);
+    color: rgb(81, 35, 57);
+    font-weight: bold;
+}
+
+.currentletter:hover {
+    background-color: rgb(208, 192, 70);
+    color: rgb(81, 35, 57);
+    font-weight: bold;
+}
+
+.header {
+    font-size: 45px;
+    margin-top: 0px;
+}
+
+.usedlabel {
+    font-size: 30px;
+    margin-right: 0px;
+    padding-left: 10px;
+}
+
+.usedlist {
+    margin-right: 0px;
+    padding-left: 50px;
+}

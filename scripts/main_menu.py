@@ -9,7 +9,7 @@ from PyQt6.QtGui import QAction
 from app_list_window import AppListWindow
 
 """
-TODO: Figure out why CSS isnt changing hover effect
+TODO: Figure out why CSS isnt changing hover effect on menubar
 """
 
 class MainWindow(QMainWindow):

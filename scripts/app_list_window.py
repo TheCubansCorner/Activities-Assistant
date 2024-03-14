@@ -9,6 +9,7 @@ from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import QSize, Qt
 
 from resident_lookup import ResidentLookup
+from bingo import Bingo
 
 class AppListWindow(QWidget):
     def __init__(self, mainApp: QMainWindow = None, user: tuple = None) -> None:        # -- Initiates the module
@@ -19,7 +20,7 @@ class AppListWindow(QWidget):
             "residentHistory" : None,
             "yahtzee" : None,
             "beanBagToss" : None,
-            "bingo" : None,
+            "bingo" : Bingo(self),
             "bocceBall" : None,
             "uno" : None
         }
@@ -111,8 +112,8 @@ class AppListWindow(QWidget):
         if currentApp:
             for item in self.widgetList:
                 item.hide()
-                self.layout.addWidget(currentApp)
-                currentApp.show()
+            self.layout.addWidget(currentApp)
+            currentApp.show()
 
 
 if __name__ == "__main__":

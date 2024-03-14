@@ -15,5 +15,6 @@ QLabel {
 .bio {
     text-wrap: wrap;
     padding: 100px;
+    padding-left: 0px;
 }
 

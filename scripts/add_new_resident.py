@@ -18,6 +18,7 @@ class NewResidentWindow(QWidget):
         self.applyLayouts()
         self.setButtonConnections()
         self.loadComboOptions()
+        self.applyStylesheets()
 
     def initUI(self) -> None:                       # -- Initiates Apps Widgets
         # Create Widgets
@@ -104,7 +105,11 @@ class NewResidentWindow(QWidget):
         self.uploadBtn.clicked.connect(self.uploadPhoto)
         
     def applyStylesheets(self) -> None:             # -- Applies Stylesheets to Application
-        pass
+        self.dietRestrictLabel.setProperty("class", "textbox")
+        self.residentBioLabel.setProperty("class", "textbox")
+        
+        with open(os.path.join("stylesheets", "add_new_resident.css")) as file:
+            self.setStyleSheet(file.read())
 
     def loadComboOptions(self) -> None:             # -- Inserts options to comboboxs
         options: list = ["--", "Yes", "No"]
