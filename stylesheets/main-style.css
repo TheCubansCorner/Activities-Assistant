@@ -69,3 +69,7 @@ QAction {
 QAction:hover {
     background-color: rgb(208, 192, 70);
 }
+
+QScrollBar {
+    background-color: rgb(195, 180, 65);
+}

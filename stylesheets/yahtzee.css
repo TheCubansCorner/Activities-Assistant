@@ -1,0 +1,19 @@
+QWidget {
+    color: #000000;
+}
+
+QHeaderView::section {
+    padding: 4px;
+    border: 1px solid #000000;
+    font-size: 14pt;
+    color: #000000;
+}
+
+QTableWidget {
+    gridline-color: #000000;
+    font-size: 12pt;
+}
+
+QTableWidget QTableCornerButton::section {
+    border: 1px solid #000000;
+}

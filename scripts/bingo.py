@@ -4,7 +4,7 @@
 import sys, os, random
 
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QListWidget
-from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout
+from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QComboBox
 from PyQt6.QtCore import Qt
 
 from database_queries import DatabaseQueries
@@ -22,7 +22,6 @@ class Bingo(QWidget):
         self.applyLayout()
         self.setConnections()
         
-
     def initUI(self) -> None:
         self.previousPageBtn: QWidget = QPushButton("<--")
         self.resetGameBtn: QWidget = QPushButton("Refresh")
@@ -121,7 +120,7 @@ class Bingo(QWidget):
     def selectWinner(self) -> None:
         self.app = QWidget()
 
-        self.residentListbox: QWidget = QListWidget()
+        self.residentCombo: QWidget = QComboBox()
         self.submitWinnerBtn: QWidget = QPushButton("Submit")
         self.cancelBtn: QWidget = QPushButton("Cancel")
 
@@ -130,24 +129,29 @@ class Bingo(QWidget):
 
         self.buttonLayout.addWidget(self.cancelBtn)
         self.buttonLayout.addWidget(self.submitWinnerBtn)
-        self.vLayout.addWidget(self.residentListbox)
+        self.vLayout.addWidget(self.residentCombo)
         self.vLayout.addLayout(self.buttonLayout)
 
         self.cancelBtn.clicked.connect(self.app.close)
         self.submitWinnerBtn.clicked.connect(self.submitWinner)
-
+        
+        self.residentCombo.addItem("------------")
         for resident in self.residentList:
-            self.residentListbox.addItem(f"{resident[1]} {resident[2]} {resident[3]}")
+            self.residentCombo.addItem(f"{resident[1]} {resident[2]} {resident[3]}")
 
         self.app.setLayout(self.vLayout)
 
         self.app.show()
     
     def submitWinner(self) -> None:
-        # SUbmit to winner database
-        winner = self.residentListbox.currentItem().text()
+        winner = self.residentCombo.currentText()
+        
+        if winner == "------------":
+            return
+        
         print(winner)
-        pass
+        
+        # SUbmit to winner database for wins
 
 
 if __name__ == "__main__":

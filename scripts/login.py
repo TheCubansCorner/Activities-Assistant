@@ -96,7 +96,7 @@ class Login(QWidget):
     def submitUser(self) -> None:                   # -- Checks the input information against the Admin database for login
         user: str = self.userLine.text()
         userPass: str = self.passLine.text()
-        print(user, userPass)
+        
         # Verify that informaiton provided is not an empty string
         if user == "" and userPass == "":
             self.errorLabel.setText("      You must input a\nUsername and Password")
