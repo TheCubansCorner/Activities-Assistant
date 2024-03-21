@@ -11,6 +11,7 @@ from PyQt6.QtCore import QSize, Qt
 from resident_lookup import ResidentLookup
 from bingo import Bingo
 from yahtzee import Yahtzee
+from bocceball import BocceBall
 
 class AppListWindow(QWidget):
     def __init__(self, mainApp: QMainWindow = None, user: tuple = None) -> None:        # -- Initiates the module
@@ -22,7 +23,7 @@ class AppListWindow(QWidget):
             "yahtzee" : Yahtzee(self),
             "beanBagToss" : None,
             "bingo" : Bingo(self),
-            "bocceBall" : None,
+            "bocceBall" : BocceBall(self),
             "uno" : None
         }
 

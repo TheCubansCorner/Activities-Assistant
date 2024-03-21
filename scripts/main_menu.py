@@ -8,9 +8,6 @@ from PyQt6.QtGui import QAction
 
 from app_list_window import AppListWindow
 
-"""
-TODO: Figure out why CSS isnt changing hover effect on menubar
-"""
 
 class MainWindow(QMainWindow):
     def __init__(self, user: tuple = None) -> None:      # -- Initiates the main window of the application
@@ -34,6 +31,7 @@ class MainWindow(QMainWindow):
     def menuOptions(self) -> None:
         menuAction = QAction("&Exit", self)
         menuAction.setStatusTip("Exit the Application")
+        menuAction.setToolTip("Exit the Application")
         menuAction.triggered.connect(self.closeProgram)
         self.menuBar = QMenuBar()
         menu = self.menuBar

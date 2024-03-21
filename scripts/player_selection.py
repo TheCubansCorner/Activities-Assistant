@@ -20,7 +20,7 @@ class PlayerSelection(QWidget):
         self.widgetSettings()
         self.applyConnections()
         self.applyStyles()
-        self.applyLayout()
+        self.initLayouts()
 
     def init(self) -> None:
         self.residentListbox: QWidget = QListWidget()
@@ -30,7 +30,7 @@ class PlayerSelection(QWidget):
 
         self.widgetList: list = [self.residentListbox, self.playersListbox, self.submitPlayersBtn, self.clearPlayersBtn]
 
-    def applyLayout(self) -> None:
+    def initLayouts(self) -> None:
         self.layout = QVBoxLayout()
         self.listboxLayout = QHBoxLayout()
         self.buttonLayout = QHBoxLayout()
@@ -68,6 +68,9 @@ class PlayerSelection(QWidget):
 
     def submitPlayerList(self) -> None:
         self.playerList = [self.playersListbox.item(x).text().split()[0] for x in range(self.playersListbox.count())]
+        if len(self.playerList) < 3:
+            return
+        
         if self.playerList:
             self.mainFrame.playerList = self.playerList
             self.resetPlayerList()
@@ -83,13 +86,12 @@ class PlayerSelection(QWidget):
 
             for widg in self.mainFrame.widgetList:
                 widg.show()
-            
-            
-
+                       
     def resetPlayerList(self) -> None:
         self.residentListbox.clear()
         self.playersListbox.clear()
         self.loadListbox()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
