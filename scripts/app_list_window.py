@@ -14,6 +14,7 @@ from yahtzee import Yahtzee
 from bocceball import BocceBall
 from bean_bag_toss import BeanBagToss
 from uno import Uno
+from bowling import Bowling
 
 class AppListWindow(QWidget):
     def __init__(self, mainApp: QMainWindow = None, user: tuple = None) -> None:        # -- Initiates the module
@@ -27,7 +28,7 @@ class AppListWindow(QWidget):
             "bingo" : Bingo(self),
             "bocceBall" : BocceBall(self),
             "uno" : Uno(self),
-            "bowling" : None
+            "bowling" : Bowling(self)
         }
 
         self.initUI()
@@ -78,6 +79,7 @@ class AppListWindow(QWidget):
         self.bingoBtn.clicked.connect(lambda: self.openApp(self.appDict["bingo"]))
         self.bocceBallBtn.clicked.connect(lambda: self.openApp(self.appDict["bocceBall"]))
         self.unoBtn.clicked.connect(lambda: self.openApp(self.appDict["uno"]))
+        self.bowlingBtn.clicked.connect(lambda: self.openApp(self.appDict["bowling"]))
 
     def applyStylsheets(self) -> None:
         self.header.setMaximumHeight(400)

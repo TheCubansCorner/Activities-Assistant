@@ -72,6 +72,18 @@ class PlayerSelection(QWidget):
         if len(self.playerList) < 3:
             return
         
+        try:
+            if self.mainFrame.appTitle == "bowling":
+                self.mainFrame.scoreboardTable.setRowCount(len(self.playerList) + 1)
+                self.mainFrame.playerList = self.playerList
+                self.mainFrame.showAll()
+                self.mainFrame.buildTable()
+                self.hide()
+                
+                return
+        except:
+            pass
+        
         if self.playerList:
             self.mainFrame.playerList = self.playerList
             self.resetPlayerList()

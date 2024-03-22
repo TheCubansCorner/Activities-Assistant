@@ -1,0 +1,21 @@
+.header {
+    font-size: 40px;
+    margin: 0;
+}
+
+QHeaderView::section {
+    padding: 4px;
+    border: 1px solid #000000;
+    font-size: 14pt;
+
+}
+
+QTableWidget {
+    gridline-color: rgb(81, 35, 57);
+    border: 1px solid rgb(81, 35, 57);
+    font-size: 12pt;
+}
+
+QTableWidget QTableCornerButton::section {
+    border: 1px solid #000000;
+}
