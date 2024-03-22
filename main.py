@@ -1,6 +1,12 @@
 #! python3
 #! main.py -- initiates
 
+"""
+TODO: Need to work on stylesheets overall
+TODO: need to make the menu a side bar instead
+TODO: 
+"""
+
 import sys, os
 
 from PyQt6.QtWidgets import QApplication

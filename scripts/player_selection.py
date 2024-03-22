@@ -68,6 +68,7 @@ class PlayerSelection(QWidget):
 
     def submitPlayerList(self) -> None:
         self.playerList = [self.playersListbox.item(x).text().split()[0] for x in range(self.playersListbox.count())]
+        
         if len(self.playerList) < 3:
             return
         
