@@ -1,6 +1,14 @@
 .header {
     font-size: 40px;
+    bottom: 0;
+    position: absolute;
     margin: 0;
+    padding-bottom: 0;
+    margin-top : 50px;
+}
+
+QLabel {
+    background-color: rgba(red, green, blue, alpha);
 }
 
 QHeaderView::section {
@@ -10,12 +18,15 @@ QHeaderView::section {
 
 }
 
-QTableWidget {
+.QTableWidget {
     gridline-color: rgb(81, 35, 57);
-
-    font-size: 12pt;
+    position: : absolute;
+    font-size : 12pt;
+    margin-top : 0;
+    
 }
 
 QTableWidget QTableCornerButton::section {
-    border: 1px solid #000000;
+
+    border: 2px, solid, red;
 }

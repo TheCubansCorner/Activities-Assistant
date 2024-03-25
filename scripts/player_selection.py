@@ -84,7 +84,10 @@ class PlayerSelection(QWidget):
         except:
             pass
         
+        
+
         if self.playerList:
+
             self.mainFrame.playerList = self.playerList
             self.resetPlayerList()
             self.mainFrame.scoreboardTable.setRowCount(len(self.playerList) + 1)
@@ -93,6 +96,7 @@ class PlayerSelection(QWidget):
             for inx, resident in enumerate(self.playerList):
                 self.mainFrame.currentPlayerScore[(inx + 1)] = 0
 
+            
             self.hide()
             #self.destroy()
             #self.close()

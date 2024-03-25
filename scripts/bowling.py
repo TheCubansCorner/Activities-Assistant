@@ -2,7 +2,8 @@
 #! bowling.py -- Module for tracking bowling scores for residents
 
 """
-TODO: 
+TODO: Need to start working on styling each widget and updateing menus.
+TODO: Need to update imports on all widgets, so app can be ran through main.
 """
 
 import os, sys

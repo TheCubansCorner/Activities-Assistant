@@ -15,6 +15,7 @@ from bocceball import BocceBall
 from bean_bag_toss import BeanBagToss
 from uno import Uno
 from bowling import Bowling
+from historic import HistoricData
 
 class AppListWindow(QWidget):
     def __init__(self, mainApp: QMainWindow = None, user: tuple = None) -> None:        # -- Initiates the module
@@ -22,7 +23,7 @@ class AppListWindow(QWidget):
         self.mainApp = mainApp
         self.appDict: dict = {
             "residentLookup" : ResidentLookup(self),
-            "residentHistory" : None,
+            "residentHistory" : HistoricData(self),
             "yahtzee" : Yahtzee(self),
             "beanBagToss" : BeanBagToss(self),
             "bingo" : Bingo(self),

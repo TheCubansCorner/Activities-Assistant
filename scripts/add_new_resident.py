@@ -152,10 +152,10 @@ class NewResidentWindow(QWidget):
 
         # CLose the window pane 
         if self.mainFrame != None:
-            self.mainFrame.listPreviewLayout.removeWidget(self)
-            self.mainFrame.residentListbox.clear()
-            self.mainFrame.loadResidentComboList()
-            self.mainFrame.loadResidentPreview()
+            self.mainFrame.layout.removeWidget(self)
+            self.mainFrame.mainFrame.residentListbox.clear()
+            self.mainFrame.mainFrame.loadResidentComboList()
+            self.mainFrame.mainFrame.loadResidentPreview()
             self.mainFrame.newResidentWindow = None
             self.cancelSubmission()
         else:
@@ -163,12 +163,12 @@ class NewResidentWindow(QWidget):
 
     def cancelSubmission(self) -> None:             # -- Cancel and close add resident window pane
         if self.mainFrame != None:
-            self.mainFrame.listPreviewLayout.removeWidget(self)
-            self.mainFrame.newResidentWindow = None
+            self.mainFrame.layout.removeWidget(self)
+            self.mainFrame.newResidentWindow = False
             self.close()
             id = DatabaseQueries().getAllResidents()[0][0]
-            self.mainFrame.residentProfile.loadResidentInformation(id)
-            for widg in self.mainFrame.residentProfile.widgetList:
+            self.mainFrame.mainFrame.residentProfile.loadResidentInformation(id)
+            for widg in self.mainFrame.mainFrame.residentProfile.widgetList:
                 widg.show()
         else:
             sys.exit()

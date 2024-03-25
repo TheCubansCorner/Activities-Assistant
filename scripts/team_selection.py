@@ -58,7 +58,11 @@ class TeamSelection(QWidget):
         self.layout.addLayout(self.rowTwoLayout)
         self.layout.addLayout(self.rowThreeLayout)
 
+        self.move(int(self.width() - (self.width() / 2)), self.y())
+
         self.setLayout(self.layout)
+
+        self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def submitNumTeams(self) -> None:                       # -- Checks that the input is a number and 4 or less teams
         try:
@@ -127,11 +131,27 @@ class TeamSelection(QWidget):
 
         self.mainFrame.teamList = self.finalTeamSelection
         self.mainFrame.scoreBoard.setColumnCount(len(self.finalTeamSelection))
+        minMaxWidth: int = 100 * self.mainFrame.scoreBoard.columnCount() + 2
+        minMaxHeight: int = 30 * self.mainFrame.scoreBoard.rowCount() + 2
+        self.mainFrame.scoreBoard.setMinimumWidth(minMaxWidth)
+        self.mainFrame.scoreBoard.setMaximumWidth(minMaxWidth)
+        self.mainFrame.scoreBoard.setMinimumHeight(minMaxHeight)
+        self.mainFrame.scoreBoard.setMaximumHeight(minMaxHeight)
         self.mainFrame.showAll()
+
+        
 
         for inx, name in enumerate(self.finalTeamSelection):
             self.mainFrame.scoreBoard.setCellWidget(0, inx, QLabel(name[0], alignment = Qt.AlignmentFlag.AlignHCenter))
             self.mainFrame.scoreBoard.setItem(8, inx, QTableWidgetItem("0"))
+
+        try:
+            if self.mainFrame.appTitle == "bocce":
+                pass
+        except Exception as e:
+            print(f"{e} => Fail line 148")
+        
+
         self.hide()
     
     def showAll(self) -> None:                              # -- Shows all widgets
