@@ -1,0 +1,18 @@
+QPushButton {
+    color : rgb(208, 192, 70);
+}
+
+QLabel {
+    background-color:  rgb(81, 35, 57);
+    top: 0px;
+}
+
+QWidget {
+    background-color:  rgb(81, 35, 57);
+
+}
+
+.colapsed {
+    margin-left: 0;
+    padding-left: 0;
+}
